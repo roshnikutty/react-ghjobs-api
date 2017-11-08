@@ -18,11 +18,11 @@ class App extends Component {
       headers: {
         'Content-Type': 'application/json',
       }
-    }).then(res => {setTimeout(console.log(`!`, res), 5000)
-      
-    }).catch(err => {
-      console.log(`This error showed up: ${err}`)
-    })
+    }).then(data => {
+        console.log(data)
+      }).catch(err =>
+        console.log(`This error showed up: ${err}`)
+      )
   }
 
   handleSubmit(e) {
