@@ -1,28 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
-let API_URL = `https://jobs.github.com/positions.json`;
+import { connect } from 'react-redux';
+import { displayOnLoad, formSubmitAction } from './actions/actions';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      outputText: "Placeholder text where result would show"
-    }
-  }
 
-
-  componentWillMount() {
-    fetch(`${API_URL}`, {
-      method: 'GET',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(data => {
-        console.log(data)
-      }).catch(err =>
-        console.log(`This error showed up: ${err}`)
-      )
+  componentWillMount(props) {
+    this.props.dispatch(displayOnLoad())
   }
 
   handleSubmit(e) {
@@ -31,20 +14,25 @@ class App extends Component {
       skill: this.skill.value,
       location: this.location.value
     }
-    fetch(`${API_URL}?description=${formData.skill}&location=${formData.location}`, {
-      method: 'GET',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(`This error showed up: ${err}`)
-    })
+    this.props.dispatch(formSubmitAction(formData));
   }
 
   render() {
+    // let formResults;
+    // if (!this.props.formOutput && this.props.landingPageValues) {
+    //   formResults = this.props.landingPageValues.map((job, index) =>
+    //     <li key={index}> {job} </li>
+    //   );
+    // }
+    // else if (this.props.formOutput) {
+    //   console.log(this.props);
+    //   formResults = this.props.formOutput.map((job, index) =>
+    //     <li key={index}> {job} </li>
+    //   );
+    // }
+    // else {
+    //   formResults = <li>No results were found!</li>
+    // }
     return (
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -55,10 +43,16 @@ class App extends Component {
           <button>Add Item</button>
         </form>
 
-        <div>{this.state.outputText}</div>
+        <div>
+          {/* <ul>{formResults}</ul> */}
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  landingPageValues: state.landingPageValues,
+  formOutput: state.formOutput
+})
+export default connect(mapStateToProps)(App);
