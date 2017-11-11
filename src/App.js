@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { displayOnLoad, formSubmitAction } from './actions/actions';
+import { getLandingPageJobs, formSubmitAction } from './actions/actions';
 
 class App extends Component {
 
   componentWillMount(props) {
-    this.props.dispatch(displayOnLoad())
+    this.props.dispatch(getLandingPageJobs())
   }
 
   handleSubmit(e) {
@@ -18,21 +18,22 @@ class App extends Component {
   }
 
   render() {
-    // let formResults;
-    // if (!this.props.formOutput && this.props.landingPageValues) {
-    //   formResults = this.props.landingPageValues.map((job, index) =>
-    //     <li key={index}> {job} </li>
-    //   );
-    // }
-    // else if (this.props.formOutput) {
-    //   console.log(this.props);
-    //   formResults = this.props.formOutput.map((job, index) =>
-    //     <li key={index}> {job} </li>
-    //   );
-    // }
-    // else {
-    //   formResults = <li>No results were found!</li>
-    // }
+    let formResults;
+    if (!this.props.formOutput && this.props.landingPageValues) {
+      console.log(this.props);
+      formResults = this.props.landingPageValues.map((job, index) =>
+        <li key={index}> {job} </li>
+      );
+    }
+    else if (this.props.formOutput) {
+      console.log(this.props);
+      formResults = this.props.formOutput.map((job, index) =>
+        <li key={index}> {job} </li>
+      );
+    }
+    else {
+      formResults = <li>No results were found!</li>
+    }
     return (
       <div>
         <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -44,7 +45,7 @@ class App extends Component {
         </form>
 
         <div>
-          {/* <ul>{formResults}</ul> */}
+          <ul>{formResults}</ul>
         </div>
       </div>
     );
