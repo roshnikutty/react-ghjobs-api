@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getLandingPageJobs, formSubmitAction } from './actions/actions';
+import './App.css';
 
 class App extends Component {
-
   componentWillMount(props) {
     this.props.dispatch(getLandingPageJobs())
   }
@@ -19,16 +19,26 @@ class App extends Component {
 
   render() {
     let formResults;
-    if (!this.props.formOutput && this.props.landingPageValues) {
-      console.log(this.props);
+
+    if (this.props.landingPageValues.length && !this.props.formOutput.length) {
       formResults = this.props.landingPageValues.map((job, index) =>
-        <li key={index}> {job} </li>
+        <li key={index}>
+          <p>ROLE: {job.title} </p>
+          <p>TYPE: {job.type}</p>
+          <p>DESCRIPTION: {job.description}</p>
+          <hr />
+        </li>
       );
     }
-    else if (this.props.formOutput) {
-      console.log(this.props);
+
+    else if (this.props.formOutput.length) {
       formResults = this.props.formOutput.map((job, index) =>
-        <li key={index}> {job} </li>
+        <li key={index}>
+          <p>ROLE: {job.title} </p>
+          <p>TYPE: {job.type}</p>
+          <p>DESCRIPTION: {job.description}</p>
+          <hr />
+        </li>
       );
     }
     else {
@@ -36,6 +46,7 @@ class App extends Component {
     }
     return (
       <div>
+          <h1>Tech job finder - UI for GitHub service</h1>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <p><input type="text" size="30" ref={(input) => { this.skill = input }}
             placeholder="Main Skill" /></p>

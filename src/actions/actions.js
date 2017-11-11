@@ -11,27 +11,37 @@ export const getLandingPageJobs = () => {
     //Thunk function
     return function (dispatch) {
         return fetchJsonp(`${API_URL}`)
-        .then(data => {
-            if(!data.ok) {
-                return Promise.reject(data.statusText);
-            }
-            return data.json()
-        })
-        .then((jobsJson) => {
-            dispatch(displayOnLoadSuccess(jobsJson))
-        }).catch(err =>
-            console.log(`Error while running getLandingPageJobs(): ${err}`)
-        )
+            .then(data => {
+                if (!data.ok) {
+                    return Promise.reject(data.statusText);
+                }
+                return data.json()
+            }).then((jobsJson) => {
+                dispatch(displayOnLoadSuccess(jobsJson))
+            }).catch(err =>
+                console.log(`Error while running getLandingPageJobs(): ${err}`)
+            )
     }
 }
 
-export const FORM_SUBMIT_ACTION = "FORM_SUBMIT_ACTION";
-export const formSubmitAction = (form_input) => ({
-    type: FORM_SUBMIT_ACTION,
-    payload: form_input
-})
 export const FORM_SUBMIT_ACTION_SUCCESS = "FORM_SUBMIT_ACTION_SUCCESS";
-export const formSubmitActionSucess = (jobs) => ({
+export const formSubmitActionSuccess = (jobs) => ({
     type: FORM_SUBMIT_ACTION_SUCCESS,
     payload: jobs
 })
+
+export const formSubmitAction = (formInputValues) => {
+    return function (dispatch) {
+        return fetchJsonp(`${API_URL}?description=${formInputValues.skill}&location=${formInputValues.location}`)
+            .then(data => {
+                if (!data.ok) {
+                    return Promise.reject(data.statusText);
+                }
+                return data.json()
+            }).then((formJobsJson) => {
+                dispatch(formSubmitActionSuccess(formJobsJson))
+            }).catch(err =>
+                console.log(`This error showed up: ${err}`)
+            )
+    }
+}
