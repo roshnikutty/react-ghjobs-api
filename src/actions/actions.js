@@ -1,5 +1,6 @@
 import fetchJsonp from 'fetch-jsonp';
 const API_URL = `https://jobs.github.com/positions.json`;
+global.fetchJsonp = fetchJsonp;
 
 export const DISPLAY_ON_LOAD_SUCCESS = "DISPLAY_ON_LOAD_SUCCESS";
 export const displayOnLoadSuccess = (jobs) => ({
@@ -10,7 +11,7 @@ export const displayOnLoadSuccess = (jobs) => ({
 export const getLandingPageJobs = () => {
     //Thunk function
     return function (dispatch) {
-        return fetchJsonp(`${API_URL}`)
+        return global.fetchJsonp(`${API_URL}`)
             .then(data => {
                 if (!data.ok) {
                     return Promise.reject(data.statusText);

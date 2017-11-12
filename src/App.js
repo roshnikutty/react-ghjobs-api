@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getLandingPageJobs, formSubmitAction } from './actions/actions';
 import './App.css';
 
-class App extends Component {
+export class App extends Component {
   componentWillMount(props) {
     this.props.dispatch(getLandingPageJobs())
   }

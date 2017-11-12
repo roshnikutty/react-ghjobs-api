@@ -1,12 +1,11 @@
-import {
-    getLandingPageJobs,  //async action
-    formSubmitAction,    //async action   
-    formSubmitActionSuccess,
+import {getLandingPageJobs } from './actions'
+   
+import  {formSubmitActionSuccess,
     displayOnLoadSuccess,
     DISPLAY_ON_LOAD_SUCCESS,
-    FORM_SUBMIT_ACTION_SUCCESS
-} from './actions';
-import fetchJsonp from 'fetch-jsonp';
+    FORM_SUBMIT_ACTION_SUCCESS}
+ from './actions';
+// import fetchJsonp from 'fetch-jsonp';
 const API_URL = `https://jobs.github.com/positions.json`;
 
 describe('getLandingPageJobs', () => {
@@ -24,9 +23,10 @@ describe('getLandingPageJobs', () => {
                 }
             })
         })
+        console.log(getLandingPageJobs);
         const dispatch = jest.fn();
         return getLandingPageJobs()(dispatch).then(() => {
-            expect(fetchJsonp).toHaveBeenCalledWith(`https://jobs.github.com/positions.json`);
+            expect(global.fetchJsonp).toHaveBeenCalledWith(`https://jobs.github.com/positions.json`);
             expect(dispatch).toHaveBeenCalledWith(displayOnLoadSuccess(jobs));
         });
 
